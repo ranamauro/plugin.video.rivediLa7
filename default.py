@@ -134,7 +134,23 @@ class VideoLinkHTMLParser(HTMLParser.HTMLParser):
                 'link':  link
             }
             self.list.append(item)
-
+        else:
+            begin = data.find('"mp4" :')
+            if begin >= 0:
+                begin = begin + 9
+                end = data.find('.mp4', begin) + 4
+                link = data[begin:end]
+                xbmc.log('link: ' + link)
+                if link.find('http://', 1) > 0:
+                    x = link.find('/content/')
+                    y = link.find('/content/', x + 1)
+                    link = link[0:x] + link[y:]
+                item = {
+                    'mode': '1',
+                    'link':  link
+                }
+                self.list.append(item)
+    
 
 # UI builder functions
 
